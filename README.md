@@ -7,7 +7,7 @@ The ElevatorSystem is a simulation of a basic elevator control system. This proj
 
 ## Class Diagram
 
-![Class Diagram](ElevatorSystem_ClassDiagram.png)
+![Class Diagram](DesignProblem2_Elevator/ElevatorSystem_ClassDiagram.png)
 
 ### Relationships
 
