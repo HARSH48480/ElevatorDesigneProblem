@@ -1,0 +1,170 @@
+Here is the class diagram for the elevator system, along with an explanation of the types of relationships used:
+
+### Class Diagram
+
+```plaintext
++-------------------+
+|     Building      |
++-------------------+
+| -floorList        |
+| -elevatorList     |
+| -buildingInstance |
++-------------------+
+| +getInstance()    |
+| +getFloors()      |
+| +getElevators()   |
++-------------------+
+
+             1
+             |
+             |
+             |
+             | 
+             n
++-------------------+
+|     Floor         |
++-------------------+
+| -id               |
+| -floorPanel       |
+| -floorDisplay     |
++-------------------+
+| +getHallPanel()   |
+| +getFloorDisplay()|
++-------------------+
+        | 1
+        |
+        |
+        |
+        n
++-------------------+
+|   HallPanel       |
++-------------------+
+| -upButton         |
+| -downButton       |
++-------------------+
+| +getUpButton()    |
+| +getDownButton()  |
++-------------------+
+    | 1        | 1
+    |          |
+    |          |
+    |          |
+    n          n
++-------------------+      +-------------------+
+|   HallButton      |      |    Display        |
++-------------------+      +-------------------+
+| -directionButton  |      | -floorNumber      |
++-------------------+      | -direction        |
+| +press()          |      +-------------------+
+| +isPressed()      |      | +setFloorNumber() |
+| +getDirection()   |      | +getFloorNumber() |
+| +reset()          |      | +setDirection()   |
++-------------------+      | +getDirection()   |
+                           | +show()           |
+                           +-------------------+
+
+             1
+             |
+             |
+             |
+             | 
+             n
++-------------------+
+|    Elevator       |
++-------------------+
+| -id               |
+| -elevatorDoor     |
+| -elevatorDisplay  |
+| -elevatorState    |
+| -elevatorPanel    |
+| -currentFloor     |
+| -destinations     |
++-------------------+
+| +moveToFloor()    |
+| +addDestination() |
+| +processDestinations()|
+| +openDoor()       |
+| +closeDoor()      |
+| +getCurrentFloor()|
+| +getElevatorPanel()|
++-------------------+
+        | 1
+        |
+        |
+        |
+        n
++-------------------+
+|   Door            |
++-------------------+
+| -doorStatus       |
++-------------------+
+| +setDoorStatus()  |
+| +getDoorStatus()  |
++-------------------+
+
+        | 1
+        |
+        |
+        |
+        n
++-------------------+
+|   ElevatorPanel   |
++-------------------+
+| -floorButtons     |
+| -openDoorButton   |
+| -closeDoorButton  |
++-------------------+
+| +getFloorButtons()|
+| +getOpenDoorButton()|
+| +getCloseDoorButton()|
++-------------------+
+    | 1        | 1
+    |          |
+    |          |
+    |          |
+    n          n
++-------------------+      +-------------------+
+| ElevatorButton    |      |    Button         |
++-------------------+      +-------------------+
+| -destinationFloor |<|----| -status           |
++-------------------+      +-------------------+
+| +press()          |      | +press()          |
+| +getDestinationFloor()|  | +isPressed()      |
+| +reset()          |      +-------------------+
++-------------------+
+
++-------------------+
+| ElevatorSystem    |
++-------------------+
+| -building         |
+| -elevatorSystemInstance|
++-------------------+
+| +getInstance()    |
+| +monitoring()     |
+| +dispatcherAlgo() |
++-------------------+
+```
+
+### Relationships
+
+1. **Inheritance**
+   - `ElevatorButton` and `HallButton` inherit from `Button`.
+
+2. **Composition**
+   - `Building` contains `Floor` objects (a building cannot exist without floors).
+   - `Floor` contains `HallPanel` and `Display` objects (a floor cannot exist without these).
+   - `Elevator` contains `Door`, `Display`, and `ElevatorPanel` objects (an elevator cannot exist without these).
+
+3. **Aggregation**
+   - `Building` aggregates `Elevator` objects (an elevator can exist independently of the building, but it is logically contained within a building).
+   - `ElevatorPanel` aggregates `ElevatorButton` objects (buttons can exist independently but are logically part of the panel).
+
+4. **Singleton Pattern**
+   - `Building` and `ElevatorSystem` use the singleton pattern to ensure only one instance exists.
+
+### Explanation of Relationships
+
+- **Inheritance**: The `ElevatorButton` and `HallButton` classes extend the `Button` class, utilizing polymorphism to implement the `press()` method.
+- **Composition**: Key objects like `Door`, `Display`, and panels are integral parts of their parent objects, and they do not exist outside of them.
+- **Aggregation**: Objects like `Elevator` can exist independently but are used within a `Building`, representing a whole-part relationship without strong lifecycle dependency.
+- **Singleton**: `Building` and `ElevatorSystem` follow the Singleton pattern, ensuring that only one instance of these classes is created and used throughout the application.
